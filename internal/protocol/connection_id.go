@@ -15,6 +15,7 @@ const maxConnectionIDLen = 18
 // GenerateConnectionID generates a connection ID using cryptographic random
 func GenerateConnectionID(len int) (ConnectionID, error) {
 	b := make([]byte, len)
+	//crypto/rand比math/rand更加随机
 	if _, err := rand.Read(b); err != nil {
 		return nil, err
 	}
