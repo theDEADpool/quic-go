@@ -342,6 +342,7 @@ func (s *session) run() error {
 		}
 		close(s.handshakeCompleteChan)
 	}()
+	// 如果是server，s.perspective在session创建的时候会赋值为PerspectiveServer
 	if s.perspective == protocol.PerspectiveClient {
 		select {
 		case <-s.clientHelloWritten:

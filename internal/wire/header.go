@@ -22,6 +22,7 @@ func ParseConnectionID(data []byte, shortHeaderConnIDLen int) (protocol.Connecti
 		if len(data) < shortHeaderConnIDLen+1 {
 			return nil, io.EOF
 		}
+		//protocol.ConnectionID实际就是[]byte数据结构。定义在connection_id.go文件中。
 		return protocol.ConnectionID(data[1 : 1+shortHeaderConnIDLen]), nil
 	}
 	if len(data) < 6 {
