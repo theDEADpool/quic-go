@@ -56,8 +56,10 @@ type cryptoStreamHandler interface {
 type receivedPacket struct {
 	remoteAddr net.Addr
 	rcvTime    time.Time
+	//data就是从socket读取的原始数据，在packet_handler_map.go中handlePacket和listen赋值
 	data       []byte
-
+	//buffer是从内存池中申请的一块空间，初始大小是MaxReceivePacketSize
+	//在packet_handler_map.go中handlePacket和listen赋值
 	buffer *packetBuffer
 }
 

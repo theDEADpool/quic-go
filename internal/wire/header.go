@@ -93,6 +93,7 @@ func ParsePacket(data []byte, shortHeaderConnIDLen int) (*Header, []byte /* pack
 // * if we understand the version: up to the packet number
 // * if not, only the invariant part of the header
 func parseHeader(b *bytes.Reader, shortHeaderConnIDLen int) (*Header, error) {
+	//bytes.Reader的Len()方法返回还没有读取的长度
 	startLen := b.Len()
 	h, err := parseHeaderImpl(b, shortHeaderConnIDLen)
 	if err != nil {
@@ -199,10 +200,13 @@ func (h *Header) parseLongHeader(b *bytes.Reader) error {
 		}
 	}
 
+	//ReadVarInt的入参类型io.ByteReader是一个接口，声明了ReadByte方法
+	//b的类型bytes.Reader实现了这个方法
 	pl, err := utils.ReadVarInt(b)
 	if err != nil {
 		return err
 	}
+	//protocol.ByteCount就是重命名了uint64
 	h.Length = protocol.ByteCount(pl)
 	return nil
 }
