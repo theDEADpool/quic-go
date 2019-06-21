@@ -257,6 +257,7 @@ var newClientSession = func(
 		version:               v,
 	}
 	s.preSetup()
+	//initialPacketNumber对应的是c.initialPacketNumber，这个值只有在handleVersionNegotiationPacket赋值
 	s.sentPacketHandler = ackhandler.NewSentPacketHandler(initialPacketNumber, s.rttStats, s.logger)
 	initialStream := newCryptoStream()
 	handshakeStream := newCryptoStream()
@@ -335,7 +336,7 @@ func (s *session) postSetup() error {
 
 // run the session main loop
 func (s *session) run() error {
-	defer s.ctxCancel()
+	defer s.ctxCancel()		//在session的postSetup创建的
 
 	go func() {
 		if err := s.cryptoStreamHandler.RunHandshake(); err != nil {

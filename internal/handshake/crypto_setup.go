@@ -240,6 +240,7 @@ func (h *cryptoSetup) RunHandshake() error {
 
 	select {
 	case <-h.closeChan:
+		//如果调用了h.Close就会进入这个流程
 		close(h.messageChan)
 		// wait until the Handshake() go routine has returned
 		return errors.New("Handshake aborted")

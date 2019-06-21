@@ -274,6 +274,7 @@ func (c *client) establishSecureConnection(ctx context.Context) error {
 	}()
 
 	select {
+	//ctx是调用Context.Background()创建的顶层Context
 	case <-ctx.Done():
 		// The session will send a PeerGoingAway error to the server.
 		c.session.Close()
@@ -380,6 +381,7 @@ func (c *client) createNewTLSSession(version protocol.VersionNumber) error {
 		return err
 	}
 	c.session = sess
+	//把srcConnID和client关联起来，加入packetHandlerMap的handler数组
 	c.packetHandlers.Add(c.srcConnID, c)
 	return nil
 }
